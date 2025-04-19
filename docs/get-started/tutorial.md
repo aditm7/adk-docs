@@ -37,6 +37,7 @@
   </div>
 
 </div>
+
 This tutorial extends from the [Quickstart example](https://google.github.io/adk-docs/get-started/quickstart/) for [Agent Development Kit](https://google.github.io/adk-docs/get-started/). Now, you're ready to dive deeper and construct a more sophisticated, **multi-agent system**.
 
 We'll embark on building a **Weather Bot agent team**, progressively layering advanced features onto a simple foundation. Starting with a single agent that can look up weather, we will incrementally add capabilities like:
@@ -142,10 +143,9 @@ os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
 ### Define Model Constants for easier use
 
 ```
+MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash"
 
-MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash-exp"
-
-# Note: Specific model names might change. Refer to LiteLLM/Provider documentation.
+# Note: Specific model names might change. Refer to LiteLLM or the model provider's documentation.
 MODEL_GPT_4O = "openai/gpt-4o"
 MODEL_CLAUDE_SONNET = "anthropic/claude-3-sonnet-20240229"
 
@@ -433,6 +433,7 @@ Instead of passing only a model name string (which defaults to Google's Gemini m
 Make sure you have configured the necessary API keys for OpenAI and Anthropic in Step 0. We'll use the `call_agent_async` function (defined earlier, which now accepts `runner`, `user_id`, and `session_id`) to interact with each agent immediately after its setup.
 
 Each block below will:
+
 * Define the agent using a specific LiteLLM model (`MODEL_GPT_4O` or `MODEL_CLAUDE_SONNET`).
 * Create a *new, separate* `InMemorySessionService` and session specifically for that agent's test run. This keeps the conversation histories isolated for this demonstration.
 * Create a `Runner` configured for the specific agent and its session service.

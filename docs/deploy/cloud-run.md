@@ -7,7 +7,7 @@ To deploy your agent, you can use either the `adk deploy cloud_run` command (rec
 
 ## Agent sample
 
-For each of the commands, we will reference a `capital_agent` sample defined in on the [LLM agent](../agents/llm-agents.md) page. We will assume it's in a `capital_agent` directory.
+For each of the commands, we will reference a `capital_agent` sample defined on the [LLM agent](../agents/llm-agents.md) page. We will assume it's in a `capital_agent` directory.
 
 To proceed, confirm that your agent code is configured as follows:
 
@@ -165,11 +165,11 @@ export GOOGLE_GENAI_USE_VERTEXAI=True
         #     return {"Hello": "World"}
 
         if __name__ == "__main__":
-            # Use the PORT environment variable provided by Cloud Run, defaulting to 8000
-            uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+            # Use the PORT environment variable provided by Cloud Run, defaulting to 8080
+            uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
         ```
 
-        *Note: We specify `agent_dir_name="capital_agent"` and use `os.environ.get("PORT", 8000)` for Cloud Run compatibility.*
+        *Note: We specify `agent_dir` to the directory `main.py` is in and use `os.environ.get("PORT", 8080)` for Cloud Run compatibility.*
 
     2. List the necessary Python packages:
 

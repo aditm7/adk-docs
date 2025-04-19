@@ -29,13 +29,13 @@ The foundation for structuring multi-agent systems is the parent-child relations
 from google.adk.agents import LlmAgent, BaseAgent
 
 # Define individual agents
-greeter = LlmAgent(name="Greeter", model="gemini-2.0-flash-exp")
+greeter = LlmAgent(name="Greeter", model="gemini-2.0-flash")
 task_doer = BaseAgent(name="TaskExecutor") # Custom non-LLM agent
 
 # Create parent agent and assign children via sub_agents
 coordinator = LlmAgent(
     name="Coordinator",
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
     description="I coordinate greetings and tasks.",
     sub_agents=[ # Assign sub_agents here
         greeter,
@@ -176,7 +176,7 @@ Allows an [`LlmAgent`](llm-agents.md) to treat another `BaseAgent` instance as a
 ```python
 # Conceptual Setup: Agent as a Tool
 from google.adk.agents import LlmAgent, BaseAgent
-from google.adk.tools import AgentTool # Assuming AgentTool exists
+from google.adk.tools import agent_tool
 from pydantic import BaseModel
 
 # Define a target agent (could be LlmAgent or custom BaseAgent)
@@ -191,12 +191,12 @@ class ImageGeneratorAgent(BaseAgent): # Example custom agent
         yield Event(author=self.name, content=types.Content(parts=[types.Part.from_bytes(image_bytes, "image/png")]))
 
 image_agent = ImageGeneratorAgent()
-image_tool = AgentTool(agent=image_agent) # Wrap the agent
+image_tool = agent_tool.AgentTool(agent=image_agent) # Wrap the agent
 
 # Parent agent uses the AgentTool
 artist_agent = LlmAgent(
     name="Artist",
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
     instruction="Create a prompt and use the ImageGen tool to generate the image.",
     tools=[image_tool] # Include the AgentTool
 )
@@ -229,7 +229,7 @@ support_agent = LlmAgent(name="Support", description="Handles technical support 
 
 coordinator = LlmAgent(
     name="HelpDeskCoordinator",
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
     instruction="Route user requests: Use Billing agent for payment issues, Support agent for technical problems.",
     description="Main help desk router.",
     # allow_transfer=True is often implicit with sub_agents in AutoFlow
@@ -308,7 +308,7 @@ overall_workflow = SequentialAgent(
 ```python
 # Conceptual Code: Hierarchical Research Task
 from google.adk.agents import LlmAgent
-from google.adk.tools import AgentTool # Assuming AgentTool exists
+from google.adk.tools import agent_tool
 
 # Low-level tool-like agents
 web_searcher = LlmAgent(name="WebSearch", description="Performs web searches for facts.")
@@ -317,17 +317,17 @@ summarizer = LlmAgent(name="Summarizer", description="Summarizes text.")
 # Mid-level agent combining tools
 research_assistant = LlmAgent(
     name="ResearchAssistant",
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
     description="Finds and summarizes information on a topic.",
-    tools=[AgentTool(agent=web_searcher), AgentTool(agent=summarizer)]
+    tools=[agent_tool.AgentTool(agent=web_searcher), agent_tool.AgentTool(agent=summarizer)]
 )
 
 # High-level agent delegating research
 report_writer = LlmAgent(
     name="ReportWriter",
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.0-flash",
     instruction="Write a report on topic X. Use the ResearchAssistant to gather information.",
-    tools=[AgentTool(agent=research_assistant)]
+    tools=[agent_tool.AgentTool(agent=research_assistant)]
     # Alternatively, could use LLM Transfer if research_assistant is a sub_agent
 )
 # User interacts with ReportWriter.
