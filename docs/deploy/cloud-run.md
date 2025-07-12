@@ -16,6 +16,7 @@ To proceed, confirm that your agent code is configured as follows:
     1. Agent code is in a file called `agent.py` within your agent directory.
     2. Your agent variable is named `root_agent`.
     3. `__init__.py` is within your agent directory and contains `from . import agent`.
+    4. Your `requirements.txt` file is present in the agent directory.
 
 === "Java"
 
@@ -162,7 +163,7 @@ export GOOGLE_GENAI_USE_VERTEXAI=True
         # Ensure the agent directory name ('capital_agent') matches your agent folder
         app = get_fast_api_app(
             agents_dir=AGENT_DIR,
-            session_db_url=SESSION_DB_URL,
+            session_service_uri=SESSION_DB_URL,
             allow_origins=ALLOWED_ORIGINS,
             web=SERVE_WEB_INTERFACE,
         )
